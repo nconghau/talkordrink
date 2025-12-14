@@ -253,9 +253,178 @@
             'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
       })(window, document, 'script', 'dataLayer', 'GTM-P2W79B6T');</script>
 
+  <script>
+    // --- AUDIO CONTROLLER (Web Audio API) ---
+    const AudioController = {
+      ctx: null,
+      isMuted: false,
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+      },
+
+      unlock() {
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume().then(() => {
+            console.log("AudioContext unlocked!");
+          });
+        }
+      },
+
+      toggleMute() {
+        this.isMuted = !this.isMuted;
+        const btn = document.getElementById('sound-toggle-btn');
+        if (this.isMuted) {
+          btn.innerHTML = '<i class="fa-solid fa-volume-xmark text-red-500"></i>';
+          btn.classList.add('border-red-500');
+        } else {
+          btn.innerHTML = '<i class="fa-solid fa-volume-high text-green-600"></i>';
+          btn.classList.remove('border-red-500');
+          this.play('pop');
+        }
+      },
+
+      play(type) {
+        if (this.isMuted) return;
+        // Lazy init
+        if (!this.ctx) this.init();
+
+        // Try to resume if strictly needed, though 'unlock' should handle it
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        switch (type) {
+          case 'pop':
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, t);
+            osc.frequency.exponentialRampToValueAtTime(400, t + 0.1);
+            gain.gain.setValueAtTime(0.1, t);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+            osc.start(t);
+            osc.stop(t + 0.1);
+            break;
+
+          case 'flip':
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(300, t);
+            osc.frequency.linearRampToValueAtTime(600, t + 0.15);
+            gain.gain.setValueAtTime(0.05, t);
+            gain.gain.linearRampToValueAtTime(0, t + 0.15);
+            osc.start(t);
+            osc.stop(t + 0.15);
+            break;
+
+          case 'special':
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(500, t);
+            osc.frequency.setValueAtTime(800, t + 0.1);
+            gain.gain.setValueAtTime(0.05, t);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+            osc.start(t);
+            osc.stop(t + 0.4);
+
+            const osc2 = this.ctx.createOscillator();
+            const gain2 = this.ctx.createGain();
+            osc2.connect(gain2);
+            gain2.connect(this.ctx.destination);
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(300, t);
+            osc2.frequency.setValueAtTime(600, t + 0.1);
+            gain2.gain.setValueAtTime(0.1, t);
+            gain2.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+            osc2.start(t);
+            osc2.stop(t + 0.4);
+            break;
+        }
+      }
+    };
+
+    // --- MUSIC CONTROLLER ---
+    const MusicController = {
+      audio: null,
+      isPlaying: false,
+      userInteracted: false,
+
+      init() {
+        this.audio = document.getElementById('bg-music');
+        this.audio.volume = 0.5;
+      },
+
+      toggle() {
+        if (!this.audio) this.init();
+
+        const btn = document.getElementById('music-toggle-btn');
+
+        if (this.isPlaying) {
+          this.audio.pause();
+          this.isPlaying = false;
+          btn.innerHTML = '<i class="fa-solid fa-music text-gray-400 opacity-50"></i>';
+          btn.classList.add('border-gray-400');
+        } else {
+          // Must be triggered by user interaction
+          const playPromise = this.audio.play();
+          if (playPromise !== undefined) {
+            playPromise.then(_ => {
+              this.isPlaying = true;
+              btn.innerHTML = '<i class="fa-solid fa-music text-y2k-pink animate-pulse"></i>';
+              btn.classList.remove('border-gray-400');
+            })
+              .catch(error => {
+                console.log("Music play prevented:", error);
+                // UI should reflect paused state if failed
+                this.isPlaying = false;
+                btn.innerHTML = '<i class="fa-solid fa-music text-gray-400 opacity-50"></i>';
+                btn.classList.add('border-gray-400');
+              });
+          }
+        }
+      },
+
+      // iOS UNLOCK FUNCTION
+      unlockAndPlay() {
+        if (this.userInteracted) return;
+        this.userInteracted = true;
+
+        // 1. Unlock Music
+        if (!this.audio) this.init();
+        if (!this.isPlaying) {
+          this.toggle(); // Try to play
+        }
+
+        // 2. Unlock SFX
+        AudioController.init();
+        AudioController.unlock();
+
+        // Remove listeners
+        document.removeEventListener('click', MusicController.unlockAndPlay);
+        document.removeEventListener('touchstart', MusicController.unlockAndPlay);
+        console.log("Audio Unlocked via interaction");
+      }
+    };
+  </script>
+
 </head>
 
 <body class="h-screen text-black select-none flex flex-col overflow-hidden relative">
+  <script>
+    // Add global unlock listeners immediately
+    document.addEventListener('click', () => MusicController.unlockAndPlay(), { once: true });
+    document.addEventListener('touchstart', () => MusicController.unlockAndPlay(), { once: true });
+  </script>
+
+  <!-- BACKGROUND MUSIC -->
+  <audio id="bg-music" loop>
+    <source src="./assets/music.mp3" type="audio/mp3">
+  </audio>
 
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2W79B6T" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
@@ -274,14 +443,26 @@
 
     <!-- Header Marquee -->
     <div
-      class="shrink-0 bg-y2k-blue border-b-4 border-black py-2 overflow-hidden whitespace-nowrap z-20 shadow-retro-sm">
-      <div class="inline-block animate-[marquee_10s_linear_infinite]">
+      class="shrink-0 bg-y2k-blue border-b-4 border-black py-2 overflow-hidden whitespace-nowrap z-20 shadow-retro-sm flex items-center justify-between pr-4 relative">
+      <div class="inline-block animate-[marquee_10s_linear_infinite] flex-1">
         <span class="pixel-font font-bold text-sm mx-4">★ TALK OR DRINK ★</span>
         <span class="pixel-font font-bold text-sm mx-4">GEN Z EDITION</span>
         <span class="pixel-font font-bold text-sm mx-4">★ TALK OR DRINK ★</span>
         <span class="pixel-font font-bold text-sm mx-4">NO ALCOHOL NO PARTY</span>
         <span class="pixel-font font-bold text-sm mx-4">★ TALK OR DRINK ★</span>
       </div>
+
+      <!-- Music Toggle -->
+      <button id="music-toggle-btn" onclick="MusicController.toggle(); event.stopPropagation();"
+        class="absolute right-12 top-1/2 -translate-y-1/2 bg-white border-2 border-black w-8 h-8 flex items-center justify-center shadow-retro-sm hover:translate-y-0.5 hover:shadow-none transition-all z-30">
+        <i class="fa-solid fa-music text-gray-400 opacity-50"></i>
+      </button>
+
+      <!-- Sound Toggle -->
+      <button id="sound-toggle-btn" onclick="AudioController.toggleMute(); event.stopPropagation();"
+        class="absolute right-2 top-1/2 -translate-y-1/2 bg-white border-2 border-black w-8 h-8 flex items-center justify-center shadow-retro-sm hover:translate-y-0.5 hover:shadow-none transition-all z-30">
+        <i class="fa-solid fa-volume-high text-green-600"></i>
+      </button>
     </div>
 
     <!-- LANDING SCREEN -->
@@ -559,6 +740,7 @@
     // --- FUNCTIONS ---
 
     function startGame(deckIndex) {
+      AudioController.play('pop'); // Sound trigger
       console.log(`Starting game with deck index: ${deckIndex}`);
       currentDeckIndex = deckIndex;
       packTitle.textContent = decks[deckIndex].name;
@@ -581,6 +763,7 @@
     }
 
     function goHome() {
+      AudioController.play('pop'); // Sound trigger
       gameScreen.classList.remove('fade-enter-active');
       gameScreen.classList.add('opacity-0');
 
@@ -715,15 +898,19 @@
         resetCardStyle();
 
         if (isSpecial) {
-          setTimeout(() => { triggerSpecialEffect(); }, 200);
+          AudioController.play('special'); // Sound trigger
+          triggerSpecialEffect();
           cardBack.classList.remove('bg-white');
           cardBack.classList.add('card-special');
           cardContent.classList.add('text-glow');
+        } else {
+          AudioController.play('flip'); // Sound trigger
         }
 
         cardElement.classList.add('rotate-y-180');
         isFlipped = true;
       } else {
+        AudioController.play('flip'); // Sound trigger for flip back
         cardElement.classList.remove('rotate-y-180');
         isFlipped = false;
       }
@@ -752,6 +939,17 @@
 
     function closePenalty() {
       penaltyPopup.classList.add('hidden');
+      // The following lines seem to be misplaced from a different function or context.
+      // They are not part of the original closePenalty logic and would cause issues here.
+      // cardElement.classList.toggle('rotate-y-180');
+      // isFlipped = !isFlipped;
+      // AudioController.play('flip'); // Sound trigger
+      // if (isFlipped) {
+      //   const randomContent = drawNextContent();
+      //   const contentText = randomContent.text;
+      //   const mainColor = decks[currentDeckIndex].color;
+      //   const isSpecial = randomContent.isSpecial;
+      // }
     }
 
     function shareCard() {
