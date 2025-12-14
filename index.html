@@ -11,7 +11,7 @@
     content="Chơi Talk Or Drink Online miễn phí! Game bài Drinking Game cực cuốn cho Gen Z: Check Var người yêu cũ, Góc chữa lành, Đại hội Flex. Thử thách Truth or Dare vui nhộn cho mọi bữa tiệc.">
   <meta name="keywords"
     content="talkordrink, talk or drink, drinking game online, game bài uống rượu, truth or dare online, board game việt hóa, game check var, game gen z, game tiệc tùng">
-  <meta name="author" content="Antigravity">
+  <meta name="author" content="nconghau">
   <link rel="canonical" href="https://talkordrink.surge.sh/">
 
   <!-- Open Graph / Facebook / Zalo -->
@@ -302,7 +302,15 @@
         <!-- Dynamically populated -->
       </div>
 
-      <footer class="mt-auto py-4 border-t border-slate-200 bg-slate-50">
+      <!-- Custom Deck Button (Fixed at bottom of grid area) -->
+      <div class="mt-2 text-center shrink-0">
+        <button onclick="openCustomDeckModal()"
+          class="w-full md:w-auto bg-white border-2 border-black border-dashed px-6 py-3 font-bold text-gray-500 hover:text-black hover:border-solid hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-retro-sm">
+          <i class="fa-solid fa-plus mr-2"></i> Tự tạo bộ bài (Custom)
+        </button>
+      </div>
+
+      <footer class="mt-auto py-4 border-t border-slate-200 bg-slate-50 shrink-0">
         <div class="flex flex-row items-center justify-center gap-4 text-center text-slate-600 text-sm">
           <p>@nconghau - v1.0.0</p>
           <a href="https://github.com/nconghau/talkordrink" target="_blank" rel="noopener noreferrer"
@@ -315,6 +323,36 @@
           </a>
         </div>
       </footer>
+    </div>
+
+    <!-- Custom Deck Modal -->
+    <div id="custom-deck-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+      <div class="bg-white w-full max-w-lg border-4 border-black shadow-retro p-6 relative">
+        <button onclick="closeCustomDeckModal()"
+          class="absolute top-2 right-2 text-2xl font-bold hover:text-red-500">&times;</button>
+        <h2 class="text-2xl font-bold font-pixel uppercase mb-4 text-center">Tự tạo bộ bài</h2>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block font-bold mb-1">Tên bộ bài:</label>
+            <input type="text" id="custom-deck-name" placeholder="Ví dụ: Team Building 2024"
+              class="w-full border-2 border-black p-2 font-sans focus:outline-none focus:bg-yellow-50">
+          </div>
+          <div>
+            <label class="block font-bold mb-1">Nội dung (Mỗi dòng 1 thẻ):</label>
+            <textarea id="custom-deck-content" rows="6"
+              placeholder="Người yêu cũ tên gì?&#10;Hát một bài tặng người bên trái&#10;Uống 1 ly..."
+              class="w-full border-2 border-black p-2 font-sans focus:outline-none focus:bg-yellow-50 resize-none"></textarea>
+            <p class="text-xs text-gray-500 mt-1">* Nhập ít nhất 5 dòng để chơi vui hơn nha!</p>
+          </div>
+          <div class="pt-2">
+            <button onclick="startCustomDeck()"
+              class="w-full bg-y2k-green border-2 border-black shadow-retro px-6 py-3 font-bold text-lg hover:translate-y-1 hover:shadow-none transition-all uppercase">
+              Vào chơi ngay! 🚀
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- GAME SCREEN -->
@@ -555,6 +593,68 @@
 
         reshuffleOverlay.style.display = 'none';
       }, 300);
+    }
+
+    // --- CUSTOM DECK LOGIC ---
+    const customDeckModal = document.getElementById('custom-deck-modal');
+
+    function openCustomDeckModal() {
+      customDeckModal.classList.remove('hidden');
+    }
+
+    function closeCustomDeckModal() {
+      customDeckModal.classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    customDeckModal.addEventListener('click', (e) => {
+      if (e.target === customDeckModal) {
+        closeCustomDeckModal();
+      }
+    });
+
+    function startCustomDeck() {
+      const nameInput = document.getElementById('custom-deck-name');
+      const contentInput = document.getElementById('custom-deck-content');
+
+      const name = nameInput.value.trim() || "Bộ Bài Của Tui";
+      const rawContent = contentInput.value.trim();
+
+      if (!rawContent) {
+        alert("Bạn chưa nhập nội dung bộ bài kìa fen!");
+        return;
+      }
+
+      const cards = rawContent.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+      if (cards.length < 1) {
+        alert("Nhập ít nhất 1 câu hỏi nha!");
+        return;
+      }
+
+      // Create new temporary deck
+      const newDeck = {
+        id: `custom_${Date.now()}`,
+        name: name,
+        description: "Bộ bài tự tạo bởi người chơi hệ Custom.",
+        color: "bg-white",
+        icon: "fa-pen-to-square",
+        content: cards
+      };
+
+      // Add to decks array
+      decks.push(newDeck);
+      const newIndex = decks.length - 1;
+
+      // Render card (optional, strictly not needed since we jump straight in, but good for returning home)
+      // For now, we just jump straight to game
+
+      closeCustomDeckModal();
+      startGame(newIndex);
+
+      // Clear inputs for next time
+      // nameInput.value = "";
+      // contentInput.value = "";
     }
 
     function resetCurrentDeck() {
