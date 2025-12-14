@@ -20,9 +20,14 @@
 *   **📸 Share Your Moment:**
     *   Generate **Instagram Story-ready (9:16)** card images.
     *   Clean, customizable designs with no messy backgrounds.
+*   **🔊 Immersive Audio (New):**
+    *   **Sound Effects:** Satisfying "Swoosh" & "Pop" feedback.
+    *   **Background Music:** Chill Lo-Fi beat ("White Kitty" / "Chill") to set the mood.
+    *   **Control:** Independent Mute toggles for Music & SFX.
+    *   **iOS Support:** Optimized for flawless playback on Safari/iPhone.
 *   **Tech & Design:**
     *   Y2K/Retro aesthetic with *Pixelify Sans* & *Be Vietnam Pro*.
-    *   Built with Vanilla JS + Tailwind CSS.
+    *   Built with Vanilla JS + Tailwind CSS + Web Audio API.
     *   SEO Optimized for Vietnamese keywords.
 
 ## 📄 License
