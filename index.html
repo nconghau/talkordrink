@@ -4,13 +4,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TalkOrDrink - Gen Z Card Game</title>
+
+  <!-- SEO Meta Tags -->
+  <title>TalkOrDrink - Game Bài Gen Z | Thử Thách & Sự Thật Online</title>
+  <meta name="description"
+    content="Chơi Talk Or Drink Online miễn phí! Game bài Drinking Game cực cuốn cho Gen Z: Check Var người yêu cũ, Góc chữa lành, Đại hội Flex. Thử thách Truth or Dare vui nhộn cho mọi bữa tiệc.">
+  <meta name="keywords"
+    content="talkordrink, talk or drink, drinking game online, game bài uống rượu, truth or dare online, board game việt hóa, game check var, game gen z, game tiệc tùng">
+  <meta name="author" content="Antigravity">
+  <link rel="canonical" href="https://talkordrink.surge.sh/">
+
+  <!-- Open Graph / Facebook / Zalo -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://talkordrink.surge.sh/">
+  <meta property="og:title" content="TalkOrDrink - Game Bài Gen Z | Thử Thách & Sự Thật Online">
+  <meta property="og:description"
+    content="Game bài Drinking Game cực cuốn cho Gen Z. Chơi miễn phí ngay trên điện thoại không cần cài đặt! 🍻">
+  <meta property="og:image"
+    content="https://res.cloudinary.com/dkeupjars/image/upload/v1765720971/other_project/talkordrink-banner-03_gyssmx.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://talkordrink.surge.sh/">
+  <meta property="twitter:title" content="TalkOrDrink - Game Bài Gen Z | Thử Thách & Sự Thật Online">
+  <meta property="twitter:description" content="Chơi Talk Or Drink Online miễn phí! Drinking Game cực cuốn cho Gen Z.">
+  <meta property="twitter:image"
+    content="https://res.cloudinary.com/dkeupjars/image/upload/v1765720971/other_project/talkordrink-banner-03_gyssmx.png">
+
+  <!-- Favicon (using emoji as temporary favicon) -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍻</text></svg>">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Pixelify+Sans:wght@700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Pixelify+Sans:wght@400;500;600;700;900&display=swap"
     rel="stylesheet">
 
   <!-- Icons -->
@@ -228,7 +257,7 @@
 
   <!-- Container -->
   <div id="app"
-    class="w-full max-w-md mx-auto h-full relative bg-white/95 backdrop-blur-sm border-x-0 md:border-x-4 border-black box-border flex flex-col shadow-2xl overflow-hidden z-10">
+    class="w-full md:max-w-2xl mx-auto h-full relative bg-white/95 backdrop-blur-sm border-x-0 md:border-x-4 border-black box-border flex flex-col shadow-2xl overflow-hidden z-10">
 
     <!-- Header Marquee -->
     <div
@@ -256,154 +285,106 @@
       </div>
 
       <!-- Pack Grid -->
-      <div class="grid grid-cols-1 gap-3 overflow-y-auto pb-20 px-1 no-scrollbar flex-1" id="pack-grid">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 overflow-y-auto pb-20 px-1 no-scrollbar flex-1" id="pack-grid">
         <!-- Dynamically populated -->
       </div>
 
-      <!-- Pack 1 -->
-      <button onclick="startGame(0)"
-        class="group active:translate-y-1 active:shadow-none transition-all relative w-full bg-white border-4 border-black shadow-retro p-4 flex items-center hover:bg-y2k-yellow">
-        <div
-          class="w-12 h-12 bg-black text-white flex items-center justify-center text-2xl mr-4 border-2 border-white group-hover:scale-110 transition-transform">
-          😎
-        </div>
-        <div class="text-left">
-          <h3 class="pixel-font text-sm mb-1 uppercase text-black">Đại Hội Flex</h3>
-          <p class="text-sm leading-tight text-gray-700">Khoe khoang & Hài hước</p>
-        </div>
-      </button>
+      <footer class="mt-auto pt-4 pb-2 text-center text-xs opacity-50 shrink-0">
+        coded by antigravity
+      </footer>
+    </div>
 
-      <!-- Pack 2 -->
-      <button onclick="startGame(1)"
-        class="group active:translate-y-1 active:shadow-none transition-all relative w-full bg-white border-4 border-black shadow-retro p-4 flex items-center hover:bg-y2k-pink">
-        <div
-          class="w-12 h-12 bg-black text-white flex items-center justify-center text-2xl mr-4 border-2 border-white group-hover:scale-110 transition-transform">
-          💔
-        </div>
-        <div class="text-left">
-          <h3 class="pixel-font text-sm mb-1 uppercase text-black">Check Var Tình Yêu</h3>
-          <p class="text-sm leading-tight text-gray-700">Drama & Ex</p>
-        </div>
-      </button>
+    <!-- GAME SCREEN -->
+    <div id="game-screen"
+      class="hidden flex-1 flex flex-col p-4 w-full h-full relative overflow-hidden transition-screen opacity-0">
 
-      <!-- Pack 3 -->
-      <button onclick="startGame(2)"
-        class="group active:translate-y-1 active:shadow-none transition-all relative w-full bg-white border-4 border-black shadow-retro p-4 flex items-center hover:bg-y2k-blue">
-        <div
-          class="w-12 h-12 bg-black text-white flex items-center justify-center text-2xl mr-4 border-2 border-white group-hover:scale-110 transition-transform">
-          🧠
+      <!-- Navbar -->
+      <div class="flex justify-between items-center mb-4 shrink-0 z-20">
+        <button onclick="goHome()"
+          class="bg-gray-200 border-2 border-black px-3 py-1 shadow-retro-sm text-sm hover:bg-gray-300 active:translate-y-1 active:shadow-none font-bold pixel-font transition-colors">
+          <i class="fa-solid fa-chevron-left mr-1"></i> MENU
+        </button>
+        <div class="pixel-font font-bold text-xs bg-black text-white px-3 py-1 uppercase tracking-wider shadow-retro-sm"
+          id="pack-title-display">
+          PACK NAME
         </div>
-        <div class="text-left">
-          <h3 class="pixel-font text-sm mb-1 uppercase text-black">Góc Chữa Lành</h3>
-          <p class="text-sm leading-tight text-gray-700">Deep Talk & Overthinking</p>
-        </div>
-      </button>
+      </div>
 
-      <!-- Pack 4 -->
-      <button onclick="startGame(3)"
-        class="group active:translate-y-1 active:shadow-none transition-all relative w-full bg-white border-4 border-black shadow-retro p-4 flex items-center hover:bg-y2k-green">
-        <div
-          class="w-12 h-12 bg-black text-white flex items-center justify-center text-2xl mr-4 border-2 border-white group-hover:scale-110 transition-transform">
-          🤪
-        </div>
-        <div class="text-left">
-          <h3 class="pixel-font text-sm mb-1 uppercase text-black">Hỗn Loạn & Troll</h3>
-          <p class="text-sm leading-tight text-gray-700">Dare & Fun</p>
+      <!-- Card Showcase -->
+      <div id="capture-area"
+        class="flex-1 flex items-center justify-center mb-4 perspective-1000 relative w-full h-full min-h-0">
+        <div id="flip-card"
+          class="relative w-full h-full max-h-[60vh] aspect-[3/4] transition-all duration-700 transform-style-3d cursor-pointer"
+          onclick="nextCard()">
 
-          <footer class="mt-auto pt-4 pb-2 text-center text-xs opacity-50 shrink-0">
-            coded by antigravity
-          </footer>
-        </div>
-
-        <!-- GAME SCREEN -->
-        <div id="game-screen"
-          class="hidden flex-1 flex flex-col p-4 w-full h-full relative overflow-hidden transition-screen opacity-0">
-
-          <!-- Navbar -->
-          <div class="flex justify-between items-center mb-4 shrink-0 z-20">
-            <button onclick="goHome()"
-              class="bg-gray-200 border-2 border-black px-3 py-1 shadow-retro-sm text-sm hover:bg-gray-300 active:translate-y-1 active:shadow-none font-bold pixel-font transition-colors">
-              <i class="fa-solid fa-chevron-left mr-1"></i> MENU
-            </button>
+          <!-- Front -->
+          <div
+            class="absolute inset-0 w-full h-full bg-y2k-pink border-4 border-black shadow-retro flex flex-col items-center justify-center backface-hidden z-10 pattern-grid group hover:bg-neon-purple transition-colors duration-300">
             <div
-              class="pixel-font font-bold text-xs bg-black text-white px-3 py-1 uppercase tracking-wider shadow-retro-sm"
-              id="pack-title-display">
-              PACK NAME
+              class="border-4 border-black p-4 bg-white transform rotate-2 group-hover:rotate-0 transition-transform duration-300 shadow-retro-sm">
+              <h2 class="pixel-font font-bold text-3xl text-center leading-tight header-glow">TALK<br>OR<br>DRINK</h2>
             </div>
+            <p
+              class="mt-6 font-bold bg-y2k-yellow border-2 border-black px-3 py-1 animate-pulse pixel-font text-sm shadow-retro-sm">
+              CHẠM ĐỂ LẬT</p>
           </div>
 
-          <!-- Card Showcase -->
-          <div id="capture-area"
-            class="flex-1 flex items-center justify-center mb-4 perspective-1000 relative w-full h-full min-h-0">
-            <div id="flip-card"
-              class="relative w-full h-full max-h-[60vh] aspect-[3/4] transition-all duration-700 transform-style-3d cursor-pointer"
-              onclick="nextCard()">
+          <!-- Back -->
+          <div id="card-back"
+            class="absolute inset-0 w-full h-full bg-white border-4 border-black shadow-retro flex flex-col items-center justify-center backface-hidden rotate-y-180 p-6 z-0 overflow-hidden relative">
+            <!-- Decorative Icons -->
+            <div class="absolute top-2 left-2 text-y2k-pink opacity-50"><i class="fa-solid fa-star"></i></div>
+            <div class="absolute top-2 right-2 text-y2k-pink opacity-50"><i class="fa-solid fa-star"></i></div>
 
-              <!-- Front -->
-              <div
-                class="absolute inset-0 w-full h-full bg-y2k-pink border-4 border-black shadow-retro flex flex-col items-center justify-center backface-hidden z-10 pattern-grid group hover:bg-neon-purple transition-colors duration-300">
-                <div
-                  class="border-4 border-black p-4 bg-white transform rotate-2 group-hover:rotate-0 transition-transform duration-300 shadow-retro-sm">
-                  <h2 class="pixel-font font-bold text-3xl text-center leading-tight header-glow">TALK<br>OR<br>DRINK
-                  </h2>
-                </div>
-                <p
-                  class="mt-6 font-bold bg-y2k-yellow border-2 border-black px-3 py-1 animate-pulse pixel-font text-sm shadow-retro-sm">
-                  CHẠM ĐỂ LẬT</p>
-              </div>
-
-              <!-- Back -->
-              <div id="card-back"
-                class="absolute inset-0 w-full h-full bg-white border-4 border-black shadow-retro flex flex-col items-center justify-center backface-hidden rotate-y-180 p-6 z-0 overflow-hidden relative">
-                <!-- Decorative Icons -->
-                <div class="absolute top-2 left-2 text-y2k-pink opacity-50"><i class="fa-solid fa-star"></i></div>
-                <div class="absolute top-2 right-2 text-y2k-pink opacity-50"><i class="fa-solid fa-star"></i></div>
-
-                <!-- Content -->
-                <div class="flex-1 flex items-center justify-center text-center w-full z-10">
-                  <p id="card-content"
-                    class="text-xl md:text-2xl lg:text-3xl font-bold leading-snug uppercase transform -rotate-1 break-words whitespace-pre-wrap max-h-full overflow-y-auto w-full no-scrollbar">
-                    <!-- Card Content Goes Here -->
-                  </p>
-                </div>
-
-                <!-- Special Effect Layer -->
-                <div id="special-effect-layer" class="absolute inset-0 pointer-events-none hidden z-0">
-                  <!-- Gradient or pattern -->
-                </div>
-
-                <div
-                  class="absolute bottom-2 left-2 text-[10px] text-gray-500 pixel-font font-bold uppercase tracking-widest bg-gray-100 px-2 py-0.5 rounded border border-gray-300"
-                  id="deck-tag">
-                  <!-- Deck Name -->
-                </div>
-
-                <div class="absolute bottom-2 right-2 text-[10px] text-gray-400 pixel-font opacity-50">
-                  talkordrink.surge.sh</div>
-              </div>
+            <!-- Content -->
+            <div class="flex-1 flex items-center justify-center text-center w-full z-10">
+              <p id="card-content"
+                class="text-xl md:text-2xl lg:text-3xl font-bold leading-snug uppercase transform -rotate-1 break-words whitespace-pre-wrap max-h-full overflow-y-auto w-full no-scrollbar">
+                <!-- Card Content Goes Here -->
+              </p>
             </div>
 
+            <!-- Special Effect Layer -->
+            <div id="special-effect-layer" class="absolute inset-0 pointer-events-none hidden z-0">
+              <!-- Gradient or pattern -->
+            </div>
+
+            <div
+              class="absolute bottom-2 left-2 text-[10px] text-gray-500 pixel-font font-bold uppercase tracking-widest bg-gray-100 px-2 py-0.5 rounded border border-gray-300"
+              id="deck-tag">
+              <!-- Deck Name -->
+            </div>
+
+            <div class="absolute bottom-2 right-2 text-[10px] text-gray-400 pixel-font opacity-50">talkordrink.surge.sh
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Controls -->
-        <div class="grid grid-cols-2 gap-3 pb-2 shrink-0 z-20">
-          <div class="col-span-2">
-            <button onclick="nextCard()"
-              class="w-full bg-y2k-blue border-4 border-black shadow-retro py-3 pixel-font font-bold text-lg hover:brightness-110 active:translate-y-1 active:shadow-none transition-all group">
-              TIẾP THEO <i class="fa-solid fa-forward ml-2 group-hover:translate-x-1 transition-transform"></i>
-            </button>
-          </div>
-          <!-- Other Details -->
+      <!-- Controls -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pb-2 shrink-0 z-20">
+        <!-- Next Button (Middle Desktop) -->
+        <div class="col-span-2 md:col-span-2 md:order-2">
+          <button onclick="nextCard()"
+            class="w-full bg-y2k-blue border-4 border-black shadow-retro py-3 pixel-font font-bold text-lg hover:brightness-110 active:translate-y-1 active:shadow-none transition-all group">
+            TIẾP THEO <i class="fa-solid fa-forward ml-2 group-hover:translate-x-1 transition-transform"></i>
+          </button>
+        </div>
+        <!-- Penalty (Left Desktop) -->
+        <div class="col-span-1 md:col-span-1 md:order-1">
           <button onclick="triggerPenalty()"
-            class="bg-red-500 text-white border-4 border-black shadow-retro py-3 font-bold text-sm pixel-font hover:bg-red-600 active:translate-y-1 active:shadow-none transition-all uppercase">
+            class="w-full bg-red-500 text-white border-4 border-black shadow-retro py-3 font-bold text-sm pixel-font hover:bg-red-600 active:translate-y-1 active:shadow-none transition-all uppercase h-full flex items-center justify-center">
             Thôi, Uống! 🍺
           </button>
+        </div>
+        <!-- Share (Right Desktop) -->
+        <div class="col-span-1 md:col-span-1 md:order-3">
           <button onclick="shareCard()"
-            class="bg-white border-4 border-black shadow-retro py-3 font-bold text-sm pixel-font hover:bg-gray-100 active:translate-y-1 active:shadow-none transition-all uppercase">
+            class="w-full bg-white border-4 border-black shadow-retro py-3 font-bold text-sm pixel-font hover:bg-gray-100 active:translate-y-1 active:shadow-none transition-all uppercase h-full flex items-center justify-center">
             Chụp lại 📸
           </button>
         </div>
+      </div>
 
     </div>
 
@@ -656,94 +637,116 @@
         return;
       }
 
-      // 1. Get Content
       const currentText = cardContent.innerText;
       const currentDeck = decks[currentDeckIndex].name;
-      // Check if special card for extra flair
+      // Check deck type or content for specific styling
       const isSpecial = currentText.match(/^(LÁ BÀI|SỐC|THỬ THÁCH|CHIA SẺ|TRÚNG THƯỞNG|SỰ CỐ|HOÁN ĐỔI)/i);
 
-      // 2. Create a specific "Share Layout" container off-screen
-      // We build a completely new DOM structure optimized for the image, rather than cloning existing DOM
+      // Colors mapping based on deck index
+      const deckColors = ['#FFFF00', '#FF00FF', '#00FFFF', '#00FF00']; // yellow, pink, blue, green
+      const mainColor = deckColors[currentDeckIndex] || '#FFFF00';
+
+      // Create Wrapper
       const wrapper = document.createElement('div');
       wrapper.id = 'screenshot-wrapper';
-
-      // Premium styling for the wrapper
-      wrapper.className = "flex flex-col items-center justify-between p-8 relative overflow-hidden";
       wrapper.style.position = 'fixed';
       wrapper.style.left = '-9999px';
       wrapper.style.top = '0';
-      wrapper.style.width = '600px'; // Higher res width
-      wrapper.style.height = '900px'; // 2:3 aspect ratio
+      wrapper.style.width = '600px';
+      wrapper.style.height = '1066px'; // 9:16 ratio for stories
       wrapper.style.zIndex = '-9999';
+      wrapper.style.display = 'flex';
+      wrapper.style.flexDirection = 'column';
+      wrapper.style.alignItems = 'center';
+      wrapper.style.justifyContent = 'space-between';
+      wrapper.style.fontFamily = '"Be Vietnam Pro", sans-serif';
+      wrapper.style.padding = '40px';
+      wrapper.style.boxSizing = 'border-box';
 
-      // Dynamic Background based on context
+      // Background
       if (isSpecial) {
-        wrapper.style.background = "linear-gradient(135deg, #1a1a1a 0%, #4a004a 100%)";
+        wrapper.style.background = "linear-gradient(180deg, #1a1a1a 0%, #2d002d 100%)";
         wrapper.style.color = "white";
       } else {
-        wrapper.style.background = "#fff";
+        // Retro grid paper look
+        wrapper.style.backgroundColor = "#ffffff";
         wrapper.style.color = "black";
-        // Add retro grid pattern
-        wrapper.style.backgroundImage = "radial-gradient(#000 1px, transparent 1px)";
-        wrapper.style.backgroundSize = "20px 20px";
+        wrapper.style.backgroundImage = `
+                linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+                linear-gradient(to bottom, #f0f0f0 1px, transparent 1px)
+             `;
+        wrapper.style.backgroundSize = "40px 40px";
       }
 
-      // Inner Border
-      const border = document.createElement('div');
-      border.className = "absolute inset-4 border-8 pointer-events-none";
-      border.style.borderColor = isSpecial ? "#FF00FF" : "black";
-      wrapper.appendChild(border);
+      // Border frame
+      const frameColor = isSpecial ? '#bc13fe' : 'black';
+      const innerBorder = `
+            position: absolute;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            border: 8px solid ${frameColor};
+            pointer-events: none;
+            z-index: 50;
+        `;
 
-      // HTML Content
-      wrapper.innerHTML += `
-            <!-- Header Branding -->
-            <div class="z-10 text-center mt-6">
-                <h2 class="text-4xl font-extrabold tracking-tighter uppercase brand-font" style="text-shadow: 3px 3px 0px ${isSpecial ? '#000' : '#ccc'}">
-                    Talk<span class="${isSpecial ? 'text-y2k-pink' : 'text-transparent bg-clip-text bg-gradient-to-r from-y2k-pink to-y2k-blue'}">Or</span>Drink
-                </h2>
-                <div class="text-xl font-bold uppercase tracking-widest mt-2 px-4 py-1 inline-block border-2 ${isSpecial ? 'border-white bg-white/10' : 'border-black bg-black text-white'}">
+      wrapper.innerHTML = `
+            <div style="${innerBorder}"></div>
+            
+            <!-- Header -->
+            <div style="z-index: 10; text-align: center; margin-top: 60px; display: flex; flex-direction: column; align-items: center;">
+                <div style="font-family: 'Pixelify Sans', sans-serif; font-size: 60px; font-weight: 700; line-height: 1; text-transform: uppercase; margin-bottom: 30px; color: ${isSpecial ? '#ffffff' : '#000000'}; letter-spacing: 4px;">
+                    TALK<span style="color: ${isSpecial ? '#FF00FF' : 'black'};">OR</span>DRINK
+                </div>
+                <!-- Deck Name Pill -->
+                <div style="
+                    display: inline-block;
+                    background-color: ${isSpecial ? '#333333' : mainColor};
+                    color: ${isSpecial ? '#ffffff' : '#000000'};
+                    border: 3px solid #000000;
+                    padding: 8px 32px;
+                    font-size: 20px; 
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    border-radius: 100px;
+                    letter-spacing: 1px;
+                    line-height: normal;
+                ">
                     ${currentDeck}
                 </div>
             </div>
 
-            <!-- Main Content -->
-            <div class="z-10 flex-1 flex flex-col items-center justify-center p-8 w-full text-center">
-                <div class="text-5xl font-bold leading-tight font-sans ${isSpecial ? 'text-glow' : ''}" style="word-break: break-word;">
+            <!-- Content -->
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; padding: 0 40px; text-align: center; z-index: 10;">
+                <div style="font-family: 'Be Vietnam Pro', sans-serif; font-size: 52px; font-weight: 800; line-height: 1.35; overflow-wrap: break-word; color: ${isSpecial ? '#fff' : '#000'};">
                     ${currentText}
                 </div>
             </div>
 
             <!-- Footer -->
-            <div class="z-10 mb-4 flex flex-col items-center">
-                <div class="flex items-center space-x-2 text-2xl mb-2">
-                     <span>${isSpecial ? '✨' : '🍻'}</span>
-                     <span>${isSpecial ? '✨' : '🍻'}</span>
-                     <span>${isSpecial ? '✨' : '🍻'}</span>
-                </div>
-                <div class="text-xl font-bold opacity-60 font-mono tracking-widest">
+            <div style="z-index: 10; margin-bottom: 50px; text-align: center;">
+                <div style="font-size: 18px; opacity: 0.5; letter-spacing: 4px; font-weight: 700; text-transform: uppercase;">
                     talkordrink.surge.sh
                 </div>
             </div>
-            
-            <!-- decorative corner icons -->
-            <div class="absolute top-8 left-8 text-4xl transform -rotate-12">✨</div>
-            <div class="absolute top-8 right-8 text-4xl transform rotate-12">✨</div>
-            <div class="absolute bottom-8 left-8 text-4xl transform rotate-12">🎲</div>
-            <div class="absolute bottom-8 right-8 text-4xl transform -rotate-12">🎲</div>
+
+            <!-- Decorations -->
+            <div style="position: absolute; top: 35px; left: 35px; font-size: 50px; z-index: 5;">${isSpecial ? '✨' : '⭐'}</div>
+            <div style="position: absolute; bottom: 35px; right: 35px; font-size: 50px; z-index: 5;">${isSpecial ? '💀' : '🍻'}</div>
         `;
 
       document.body.appendChild(wrapper);
 
-      // 3. Capture
+      // Capture
       html2canvas(wrapper, {
         useCORS: true,
-        scale: 1.5, // Good quality
+        scale: 1, // Standard scale since we made element huge
+        width: 600,
+        height: 1066,
         backgroundColor: null
       }).then(canvas => {
         const image = canvas.toDataURL("image/png");
         const link = document.createElement('a');
         link.href = image;
-        link.download = `talkordrink-share-${Date.now()}.png`;
+        link.download = `talkordrink-story-${Date.now()}.png`;
         link.click();
         document.body.removeChild(wrapper);
       }).catch(err => {

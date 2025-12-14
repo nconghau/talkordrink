@@ -1,3 +1,5 @@
+![TalkOrDrink Banner](https://res.cloudinary.com/dkeupjars/image/upload/v1765720971/other_project/talkordrink-banner-03_gyssmx.png)
+
 # TalkOrDrink 🍻
 
 **TalkOrDrink** is a web-based interactive card game designed for Gen Z, bringing the excitement of "Truth or Dare" to your parties. With a retro Y2K aesthetic and Vietnamese content, it's perfect for ice-breaking and creating memorable moments.
