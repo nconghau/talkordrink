@@ -35,4 +35,4 @@
 This project is licensed under the [MIT License](LICENSE).
 
 ---
-@nconghau - v1.0.0 | [GitHub Repository](https://github.com/nconghau/talkordrink)
+@nconghau - v1.0.0
